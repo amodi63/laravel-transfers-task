@@ -6,7 +6,9 @@ use App\Models\Merchant;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 
 class UserSeeder extends Seeder
 {
@@ -15,6 +17,14 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        Schema::disableForeignKeyConstraints();
+
+        // Truncate the users and merchants tables
+        DB::table('users')->truncate();
+        DB::table('merchants')->truncate();
+
+        Schema::enableForeignKeyConstraints();
+      
         User::create([
             'first_name' => 'Mohammmed',
             'last_name' => 'Al Amoudi',
@@ -27,12 +37,11 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
         Merchant::create([
-            'first_name' => 'Mohammmed',
-            'last_name' => 'Al Amoudi',
+            'first_name' => 'Merchant',
+            'last_name' => 'Merchant',
             'phone_number' => '0123456789',
             'address' => 'Gaza Strip',
-            'account_number' => '123456789',
-         
+            'account_number' => '123456789232',
             'balance' => 0.000,
             'email' => 'merchant@gmail.ps',
             'password' => Hash::make('password'),
