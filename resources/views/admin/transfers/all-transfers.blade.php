@@ -39,9 +39,12 @@
                             <div class="form-group mr-2">
                                 <label for="amount" class="mr-2">Transfer Amount</label>
                                 <select class="form-control mr-2" id="amount_operator" name="amount_operator">
-                                    <option value="=">Equal to</option>
-                                    <option value=">">Greater than</option>
-                                    <option value="<">Less than</option>
+                                    @foreach ($operators as $value => $label)
+                                    
+                                    <option value="{{ $value }}">{{ $label }}</option>
+
+                                    @endforeach
+                                 
                                 </select>
                                 <input type="number" class="form-control" id="amount" name="amount">
                             </div>

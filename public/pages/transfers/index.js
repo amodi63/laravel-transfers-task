@@ -1,5 +1,6 @@
 "use strict";
 $(document).ready(function () {
+   
     KTDatatablesDataSourceAjaxServer.init();
 
     $("#filter-form").on("submit", function (e) {
@@ -7,8 +8,7 @@ $(document).ready(function () {
         $("#kt_transfers-datatable").DataTable().draw();
     });
     $("#clear-btn").on("click", function () {
-        $("#filter-form")[0].reset();
-        $("#kt_transfers-datatable").DataTable().draw();
+        clearFilter();
     });
 });
 
@@ -80,3 +80,8 @@ var KTDatatablesDataSourceAjaxServer = (function () {
         },
     };
 })();
+
+function clearFilter() {
+    $("#filter-form")[0].reset();
+    $("#kt_transfers-datatable").DataTable().draw();
+}

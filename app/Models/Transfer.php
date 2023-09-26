@@ -27,6 +27,13 @@ class Transfer extends Model
    
     const FIXED_DEDUCTIONS = 0.015;
 
+        
+    const OPERATORS = [
+        '=' => 'Equal to',
+        '>' => 'Greater than',
+        '<' => 'Less than',
+    ];
+
     /**
      * 
      * Get the user that owns the transfer.
@@ -53,9 +60,9 @@ class Transfer extends Model
         return ($value !== null) ? $value * 100 : self::FIXED_DEDUCTIONS;
     }
 
-    public function scopeFilter($query, $fromDate, $toDate, $amountOperator, $amount)
+    public function scopeFilter($query, $searchValue ,$fromDate, $toDate, $amountOperator, $amount)
     {
-        
+     
        
         if ($fromDate) {
             $query->whereDate('created_at', '>=', $fromDate);
@@ -63,14 +70,21 @@ class Transfer extends Model
         if ($toDate) {
             $query->whereDate('created_at', '<=', $toDate);
         }
-        if ($amount) {
-            $query->where('amount', $amountOperator, $amount);
+        if ($amount && array_key_exists($amountOperator, Transfer::OPERATORS)) {
+            $decimalAmount = $amount / 100;
+            $query->where('amount', $amountOperator, $decimalAmount);
 
+        }
+        if ($searchValue) {
+            $query->whereHas('merchant', function ($subquery) use ($searchValue) {
+                $subquery->where(function ($subquery) use ($searchValue) {
+                    $subquery->where('first_name', 'like', '%'.$searchValue.'%')
+                            ->orWhere('last_name', 'like', '%'.$searchValue.'%');
+                });
+            });
         }
         return $query;
     }
-    
-
 
 
 }

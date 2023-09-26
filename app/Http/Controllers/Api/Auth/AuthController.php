@@ -20,8 +20,7 @@ class AuthController extends Controller
     */
     public function loginUser(ApiLoginRequest $request)
     {
-        $data = [];
-
+        $data = $request->all();
         $credentials = [
             'password' => $data['password'],
         ];
@@ -35,8 +34,13 @@ class AuthController extends Controller
         }
         if (Auth::attempt($credentials)) {
             $user = $request->user();
-            $data['user'] = $user;
-            $this->generateTokenResponse($user, $data);
+            $data['user'] = $user ;
+            $token = $this->generateTokenResponse($user, $data);
+
+            return response()->json([
+                'user' => $data['user'],
+                'token' => $token,
+            ]);
         } else {
             return response()->json([
                 'error' => 'Unauthorized',
@@ -64,8 +68,13 @@ class AuthController extends Controller
     
         if (Auth::attempt($credentials)) {
             $user = $request->user();
-            $data['user'] = $user;
-            $this->generateTokenResponse($user, $data);
+            $data['user'] = $user ;
+            $token = $this->generateTokenResponse($user, $data);
+
+            return response()->json([
+                'user' => $data['user'],
+                'token' => $token,
+            ]);
         } else {
             return response()->json([
                 'error' => 'Unauthorized',
@@ -120,11 +129,10 @@ class AuthController extends Controller
     */
     private function generateTokenResponse($user, &$data)
     {
-        $token = $user->createToken('TransfersApp')->accessToken;
-      $data['access_token'] = $token;
+        return $user->createToken('TransfersApp')->plainTextToken;
     }
     /*
-    * Handle an Logout Process.
+    * Handle an Logout Process. 
     *
     * @param  \Illuminate\Http\Request  $request
     * @return \Illuminate\Http\Response

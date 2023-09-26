@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\TransferRequest;
 use App\Http\Resources\TransferResource;
 use App\Models\Transfer;
+use Illuminate\Http\Request;
 
 class TransferController extends Controller
 {
@@ -21,8 +22,9 @@ class TransferController extends Controller
      */
     public function index()
     {
+        
         $transfers = $this->transferRepository->getAllTransfers()->paginate();
-        $transfers =  TransferResource::collection($transfers);
+        $transfers =  new TransferResource($transfers); 
 
         return response()->json(compact('transfers'), 200);
     }
@@ -50,9 +52,9 @@ class TransferController extends Controller
      * Export all transfers to excel file.
      */
 
-    public function exportTransfers()
+    public function exportTransfers(Request $request)
     {
-        return $this->transferRepository->exportTransfers();
+        return $this->transferRepository->exportTransfers($request->all());
     }
 
   

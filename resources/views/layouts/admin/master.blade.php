@@ -50,7 +50,7 @@ $guard = config('fortify.guard');
                                     <ul
                                         class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
                                         <li class="breadcrumb-item text-muted">
-                                            <a href="{{ route('dashboard') }}" class="text-muted mr-2">Dashboard</a>
+                                            <a href="{{ route('admin.dashboard') }}" class="text-muted mr-2">Dashboard</a>
                                         </li>
 
                                     </ul>
@@ -206,12 +206,12 @@ $guard = config('fortify.guard');
                     {{-- how to check gurad here to display the right profile picture --}}
                   
               
-                    <div class="symbol-label" style="background-image:url({{ auth($guard)->user()->profile_picture }})"></div>
+                    <div class="symbol-label" style="background-image:url({{ auth()->guard($guard)->user()->profile_picture }})"></div>
                     <i class="symbol-badge bg-success"></i>
                 </div>
                 <div class="d-flex flex-column">
-                    <a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">{{ auth($guard)->user()->full_name }}</a>
-                    <div class="text-muted mt-1">{{ auth($guard)->user()->phone_number  }}</div>
+                    <a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">{{ auth()->guard($guard)->user()->full_name }}</a>
+                    <div class="text-muted mt-1">{{ auth()->guard($guard)->user()->phone_number  }}</div>
                     <div class="navi mt-2">
                         <a href="#" class="navi-item">
                             <span class="navi-link p-0 pb-2">
@@ -235,7 +235,7 @@ $guard = config('fortify.guard');
                                         <!--end::Svg Icon-->
                                     </span>
                                 </span>
-                                <span class="navi-text text-muted text-hover-primary">{{ auth($guard)->user()->email }}</span>
+                                <span class="navi-text text-muted text-hover-primary">{{ auth()->guard($guard)->user()->email }}</span>
                             </span>
                         </a>
                         <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit()" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">Sign

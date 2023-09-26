@@ -232,6 +232,7 @@ var KTLogin = function() {
 							}
 						}
 					}
+
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
@@ -254,6 +255,30 @@ var KTLogin = function() {
 								message: 'Address is required'
 							}
 						}
+					},
+					account_number:{
+						validators: {
+							notEmpty: {
+								message: 'Account Number is required'
+							},
+							digits: {
+								message: 'Account Number must be 12 digits',
+								min: 12,
+								max: 12
+							},
+						},
+					},
+					phone_number: {
+						validators: {	
+							notEmpty: {
+								message: 'Phone Number is required'
+							},
+							digits: {
+								message: 'Phone Number must be 10 digits',
+								min: 10,
+								max: 10,
+							},
+						},
 					},
 					
 				},
@@ -280,6 +305,9 @@ var KTLogin = function() {
 				address: form.querySelector('[name="address"]').value,
 				first_name: form.querySelector('[name="first_name"]').value,
 				last_name: form.querySelector('[name="last_name"]').value,
+				address: form.querySelector('[name="address"]').value,
+				account_number: form.querySelector('[name="account_number"]').value,
+				phone_number: form.querySelector('[name="phone_number"]').value
 				
 			};
 		
@@ -288,6 +316,10 @@ var KTLogin = function() {
 			
 			$('#first_name-label').text(formData.first_name);
 			$('#last_name-label').text(formData.last_name);
+			$('#address-label').text(formData.address);
+			$('#account_number-label').text(formData.account_number);
+			$('#phone_number-label').text(formData.phone_number);
+			
 			
 		}
 		// Validation before going to next page

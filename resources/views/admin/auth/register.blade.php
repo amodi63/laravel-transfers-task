@@ -88,30 +88,38 @@
 			</div>
 			<!--begin::Title-->
 
+		
+
 			<!--begin::Row-->
-			{{-- <div class="row">
+			<div class="row">
 				<div class="col-xl-12">
-					<!--begin::Select-->
+					<!--begin::Input-->
 					<div class="form-group">
-						<label class="font-size-h6 font-weight-bolder text-dark">Country</label>
-						@php
-							$countries = Countries::getNames(  app()->getLocale() ) //get names of current local
-							 
-						@endphp
-						<select name="country"
-							class="form-control form-control-solid h-auto py-7 px-5 border-0 rounded-lg font-size-h6">
-							@foreach ($countries as $key =>  $country)
-								<option value="{{ $key }}">{{ $country }}</option>
-								
-							@endforeach
-						</select>
+						<label class="font-size-h6 font-weight-bolder text-dark">Account Number</label>
+						<input type="text"
+							class="form-control form-control-solid h-auto py-4 px-6 border-0 rounded-lg font-size-h6"
+							name="account_number" id="account_number" placeholder="Enter Acount Number"  />
 					</div>
 					<!--end::Input-->
 				</div>
 				
-			</div> --}}
+			</div>
 			<!--end::Row-->
-
+			<!--begin::Row-->
+			<div class="row">
+				<div class="col-xl-12">
+					<!--begin::Input-->
+					<div class="form-group">
+						<label class="font-size-h6 font-weight-bolder text-dark">Phone Number</label>
+						<input type="text"
+							class="form-control form-control-solid h-auto py-4 px-6 border-0 rounded-lg font-size-h6"
+							name="phone_number" id="phone_number" placeholder="Enter Phone Number"  />
+					</div>
+					<!--end::Input-->
+				</div>
+				
+			</div>
+			<!--end::Row-->
 			<!--begin::Row-->
 			<div class="row">
 				<div class="col-xl-12">
@@ -120,7 +128,7 @@
 						<label class="font-size-h6 font-weight-bolder text-dark">Address</label>
 						<input type="text"
 							class="form-control form-control-solid h-auto py-4 px-6 border-0 rounded-lg font-size-h6"
-							name="address" placeholder="Enter Address"  />
+							name="address" placeholder="Enter Address" id="address"  />
 						<span class="form-text text-muted">Please enter your Address.</span>
 					</div>
 					<!--end::Input-->
@@ -144,7 +152,7 @@
 
 			<!--begin::Section-->
 			<h4 class="font-weight-bolder mb-3">
-				Account Settings:
+				Account Data:
 			</h4>
 			<div class="text-dark-50 font-weight-bold line-height-lg mb-8">
 				
@@ -167,21 +175,39 @@
 					</p>
 					<div id="email-label" ></div>
 				</div>
+				<div class="d-flex align-items-center">
+					<p class="font-weight-bolder mb-0 mr-2" >
+						Account Number:
+					</p>
+					<div id="account_number-label" ></div>
+				</div>
+				<div class="d-flex align-items-center">
+					<p class="font-weight-bolder mb-0 mr-2" >
+						Phone Number:
+					</p>
+					<div id="phone_number-label" ></div>
+				</div>
+				<div class="d-flex align-items-center">
+					<p class="font-weight-bolder mb-0 mr-2" >
+						Address :
+					</p>
+					<div id="address-label" ></div>
+				</div>
 			</div>
 			<!--end::Section-->
 
 			<!--begin::Section-->
-<h4 class="font-weight-bolder mb-3">
+{{-- <h4 class="font-weight-bolder mb-3">
     Address Details:
 </h4>
 <div class="text-dark-50 font-weight-bold line-height-lg mb-8">
     <div class="d-flex flex-column gap-3">
-        {{-- <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center">
             <p class="font-weight-bolder mb-0 mr-2">
                 Country:
             </p>
             <div id="country-label"></div>
-        </div> --}}
+        </div>
         <div class="d-flex align-items-center">
             <p class="font-weight-bolder mb-0 mr-2">
                 Address:
@@ -189,7 +215,7 @@
             <div id="address-label" ></div>
         </div>
     </div>
-</div>
+</div> --}}
 <!--end::Section-->
 
 

@@ -1,7 +1,7 @@
 @extends('layouts.admin.auth')
 @section('title', 'login Page')
 @section('form')
-   
+  
     <!--begin::Signin-->
     <div class="login-form login-signin w-100">
         <!--begin::Form-->
@@ -12,7 +12,7 @@
             <div class="pb-5 pb-lg-15">
                 <h3 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">Sign In</h3>
         
-                @if(Route::has('register'))
+                @if(config('fortify.guard') == 'merchant')
                 <div class="text-muted font-weight-bold font-size-h4">
 
                     New Here?
@@ -26,7 +26,7 @@
             <!--begin::Form group-->
             <div class="form-group">
 				<label class="font-size-h6 font-weight-bolder text-dark">
-					Your <span class="d-md-none d-lg-inline">Email / Mobile Phone</span>
+					Your <span class="d-md-none d-lg-inline">Mobile Phone</span>
 				</label>
 				
                 <input class="form-control form-control-solid h-auto py-5 px-6 rounded-lg border-0" type="text"

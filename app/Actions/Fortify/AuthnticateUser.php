@@ -11,45 +11,45 @@ use Illuminate\Support\Facades\Hash;
 class AuthnticateUser
 {
 
-    public function authnticate(Request $request)
+    public function authenticate(Request $request)
     {
-
         $username = $request->post(config('fortify.username'));
         $password = $request->post('password');
-
-
-
-        return $this->authenticateAdmin($username, $password);
-
-
-        return false;
+        
+        if ($request->input('guard') === 'merchant') {
+            
+            return $this->authenticateMerchant($username, $password);
+        } else {
+            return $this->authenticateAdmin($username, $password);
+        }
     }
-
+    
     private function authenticateAdmin($username, $password)
     {
         $user = User::where(function ($query) use ($username) {
+        
             $query->where('email', $username)
                 ->orWhere('phone_number', $username);
         })->first();
-
+    
         if ($user && Hash::check($password, $user->password)) {
             return $user;
         }
-
+    
         return false;
     }
-
+    
     private function authenticateMerchant($username, $password)
     {
         $user = Merchant::where(function ($query) use ($username) {
             $query->where('email', $username)
                 ->orWhere('phone_number', $username);
         })->first();
-
+    
         if ($user && Hash::check($password, $user->password)) {
             return $user;
         }
-
+    
         return false;
     }
 }

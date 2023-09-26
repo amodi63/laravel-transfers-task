@@ -57,6 +57,7 @@
                 <div class="login-content login-content-signup d-flex
                         flex-column">
                     <!--begin::Aside Top-->
+             
                     <div
                         class="d-flex flex-column-auto flex-column @if (Route::currentRouteName() == 'register') px-10 @else py-10 @endif">
 
@@ -305,16 +306,13 @@
 
     <script>
         let routes = {
+
             login_url: "{{ route('login') }}",
-            @if(Route::has('register'))
-            register_url: "{{ route('register') }}",
-                home_url: "{{ route('dashboard') }}",
-            @else
-                home_url: "{{ route('admin.dashboard') }}",
-            @endif
+            home_url: "{{ config('fortify.guard') == 'merchant' ? route('merchant.dashboard') : route('admin.dashboard') }}",
         }
-        
+      
     </script>
+    
 
 
     <script src="{{ asset('assets/js/pages/custom/login/login-4.js?v=7.2.9') }}"></script>

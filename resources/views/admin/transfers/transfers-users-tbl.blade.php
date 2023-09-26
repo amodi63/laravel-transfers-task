@@ -35,7 +35,7 @@
         
             <th class="sorting " tabindex="0" aria-controls="kt_datatable" rowspan="1"
                 colspan="1" style=""
-                aria-label="Company Name: activate to sort column ascending">Code</th>
+                aria-label="Company Name: activate to sort column ascending">Transcation Code</th>
             <th class="sorting " tabindex="0" aria-controls="kt_datatable" rowspan="1"
                 colspan="1" style=""
                 aria-label="Company Name: activate to sort column ascending">Created</th>

@@ -32,8 +32,9 @@ class TransferController extends Controller
     public function index()
     {
         $transfers = $this->transferRepository->getAllTransfers()->paginate();
+        $operators = Transfer::OPERATORS;
 
-        return view('admin.transfers.all-transfers', compact('transfers'));
+        return view('admin.transfers.all-transfers', compact('transfers','operators'));
     }
 
     /**
@@ -42,13 +43,13 @@ class TransferController extends Controller
     public function datatable(Request $request)
     {
         if ($request->ajax()) {
-            
+          
             $data = $this->transferRepository->getAllTransfers()->orderBy('id', 'desc');
            
             return DataTables::of($data)
             
                 ->filter(function ($data) use ($request) {
-                    $data->filter($request->input('from_date'), $request->input('to_date'), $request->input('amount_operator'), $request->input('amount'));
+                    $data->filter($request->input('search.value'),$request->input('from_date'), $request->input('to_date'), $request->input('amount_operator'), $request->input('amount'));
                 })
                 ->addIndexColumn()
                 ->addColumn('merchant_name', function ($row) {

@@ -16,4 +16,4 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/','/login');
 
 
-Route::get('/home', [AdminController::class, 'index'])->name('dashboard');
+Route::get('/merchant', [AdminController::class, 'merchantIndex'])->name('merchant.dashboard')->middleware('auth:merchant');

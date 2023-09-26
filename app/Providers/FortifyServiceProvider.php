@@ -23,7 +23,15 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+       
         $request = request();
+        if($request->is('admin/*')){
+            Config::set('fortify.guard', 'web');
+            Config::set('fortify.home', '/admin/home');
+            Config::set('fortify.prefix', 'admin');   
+           
+        
+        }
         
     }
 
@@ -38,7 +46,7 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
         Fortify::viewPrefix('admin.auth.');
-        Fortify::authenticateUsing([new AuthnticateUser, 'authnticate']);
+        Fortify::authenticateUsing([new AuthnticateUser, 'authenticate']);
         RateLimiter::for('login', function (Request $request) {
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
 
