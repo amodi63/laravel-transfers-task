@@ -4,10 +4,12 @@ namespace App\Exports;
 
 use App\Models\Transfer;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class TransfersExport implements FromQuery, WithHeadings
+class TransfersExport implements FromCollection, WithHeadings, WithColumnWidths
 {
     protected $query;
 
@@ -17,26 +19,37 @@ class TransfersExport implements FromQuery, WithHeadings
         $this->query = $query;
     }
 
-    public function query()
+    public function collection()
     {
-        return $this->query->join('users', 'users.id', '=', 'transfers.user_id')
-                        ->join('merchants', 'merchants.id', '=', 'transfers.merchant_id')
-                        ->select('transfers.id', 'transfers.amount', 'transfers.deduction_entered', 'transfers.wallet_balance_before', 'transfers.wallet_balance_after', 'transfers.code', 'transfers.user_id', 'transfers.merchant_id', 'users.first_name as user_name', 'merchants.first_name as merchant_name');
+        return $this->query;
     }
 
     public function headings(): array
     {
         return [
-            'ID',
+            '#',
             'Amount',
             'Deduction Entered',
             'Wallet Balance Before',
             'Wallet Balance After',
             'Code',
-            'User ID',
-            'Merchant ID',
             'User Name',
             'Merchant Name',
         ];
     }
+    public function columnWidths(): array
+    {
+        return [
+            'A' => 5,
+            'B' => 10,
+            'C' => 10,
+            'D' => 20,
+            'E' => 20,
+            'F' => 45,
+            'G' => 35,
+            'H' => 35,
+        ];
+    }
+  
+   
 }

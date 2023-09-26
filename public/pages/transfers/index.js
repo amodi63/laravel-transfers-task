@@ -1,93 +1,82 @@
-
-"use strict"; 
-$(document).ready(function() {
-    
+"use strict";
+$(document).ready(function () {
     KTDatatablesDataSourceAjaxServer.init();
-    clearInputs();
+
+    $("#filter-form").on("submit", function (e) {
+        e.preventDefault();
+        $("#kt_transfers-datatable").DataTable().draw();
+    });
+    $("#clear-btn").on("click", function () {
+        $("#filter-form")[0].reset();
+        $("#kt_transfers-datatable").DataTable().draw();
+    });
 });
 
-var KTDatatablesDataSourceAjaxServer = function() {
-    var initTable = function()  {
-        var table = $('#kt_transfers-datatable');
-		// begin first table	
-        $('#kt_transfers-datatable').dataTable({
-			responsive: true,
-			searchDelay: 500,
-			processing: true,
-			serverSide: true,
-			order:[[0,"desc"]],
-			ajax: {
-				url: tranfersRoutes.datatable,
-				type: 'get',
-				data: {
-					// parameters for custom backend script demo
-					columnsDef: [
-						'code', 'user_name','merchant_name','wallet_balance_before',
-						'wallet_balance_after','amount', 'created_at', 'action'
-						
-					],
-				},
-			},
-			columns: [
-				{ data: "DT_RowIndex", name: "DT_RowIndex"},
-                {data: 'merchant_name'},
-                {data: 'account_number'},
-                {data: 'merchant_balance_before'},
-                {data: 'merchant_balance_after'},
-                {data: 'deduction_entered'},
-                {data: 'deduction_fixed'},
-                
-                {data: 'wallet_balance_before'},
-                {data: 'wallet_balance_after'},
-				{data: 'code'},
-			
-				{data: 'created_at.display'},
-				
-			]
-			,
-			columnDefs: [
-				{
-					targets: [-1],
-					className:"d-flex justify-content-center"
-				},
-			]
-			
-		});
-	};
-    $('#from_date, #to_date, #amount_operator, #amount').on('change', function() {
-        var fromDate = $('#from_date').val();
-    var toDate = $('#to_date').val();
-    var amountOperator = $('#amount_operator').val();
-    var amount = $('#amount').val();
+var KTDatatablesDataSourceAjaxServer = (function () {
+    var initTable = function () {
+        var table = $("#kt_transfers-datatable");
+        // begin first table
+        $("#kt_transfers-datatable").dataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    className: 'btn btn-primary',
+                    
+                    text: 'Export to Excel',
+                    action: function (e, dt, button, config) {
+                    var from_date = $('#from_date').val();
+                    var to_date = $('#to_date').val();
+                    var amount_operator = $('#amount_operator').val();
+                    var amount = $('#amount').val();
+                    var url = tranfersRoutes.exportExcel + '?from_date=' + from_date + '&to_date=' + to_date + '&amount_operator=' + amount_operator + '&amount=' + amount;
+                    window.location.href = url;
+                }
+                }
+            ],
+            responsive: true,
+            searchDelay: 500,
+            processing: true,
+            serverSide: true,
+            order: [[0, "desc"]],
+            ajax: {
+                url: tranfersRoutes.datatable,
+                type: "get",
+                data: function (d) {
+                        (d.from_date = $("#from_date").val()),
+                        (d.to_date = $("#to_date").val()),
+                        (d.amount_operator = $("#amount_operator").val()),
+                        (d.amount = $("#amount").val());
+                },
+            },
+            columns: [
+                { data: "id", name: "id" },
+                { data: "merchant_name" },
+                { data: "account_number" },
+                { data: "merchant_balance_before" },
+                { data: "merchant_balance_after" },
+                { data: "deduction_entered" },
+                { data: "deduction_fixed" },
 
-    $.ajax({
-        url: tranfersRoutes.datatable,
-        type: 'GET',
-        data: {
-            from_date: fromDate,
-            to_date: toDate,
-            amount_operator: amountOperator,
-            amount: amount
+                { data: "wallet_balance_before" },
+                { data: "wallet_balance_after" },
+                { data: "code" },
+
+                { data: "created_at.display" },
+            ],
+            columnDefs: [
+                {
+                    targets: [-1],
+                    className: "d-flex justify-content-center",
+                },
+            ],
+        });
+    };
+
+    return {
+        //main function to initiate the module
+        init: function () {
+            initTable();
         },
-        success: function(data) {
-            $('#kt_transfers-datatable').DataTable().clear().rows.add(data).draw();
-        },
-        
-    });
-    });
-	return {
-
-		//main function to initiate the module
-		init: function() {
-			initTable();
-		},
-
-	};
-
-}();
-function clearInputs() {
-
-    $('#clear-btn').on('click', function() {
-        $('#from_date, #to_date, #amount').val('');
-    });
-}
+    };
+})();

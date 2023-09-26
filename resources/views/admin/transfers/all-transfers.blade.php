@@ -22,44 +22,32 @@
                     <h3 class="card-label">All Users Transfers</h3>
                 </div>
                 <div class="card-toolbar">
-                    <form class="form-inline">
-                        <div class="form-group mr-2">
-                            <label for="from_date" class="mr-2">From Date</label>
-                            <input type="date" class="form-control" id="from_date" name="from_date">
-                        </div>
-                        <div class="form-group mr-2">
-                            <label for="to_date" class="mr-2">To Date</label>
-                            <input type="date" class="form-control" id="to_date" name="to_date">
-                        </div>
-                        <div class="form-group mr-2">
-                            <label for="amount" class="mr-2">Transfer Amount</label>
-                            <select class="form-control mr-2" id="amount" name="amount_operator">
-                                <option value="=">Equal to</option>
-                                <option value=">">Greater than</option>
-                                <option value="<">Less than</option>
-                            </select>
-                            <input type="number" class="form-control" id="amount" name="amount">
-                        </div>
-                        
-                        <button type="button" class="btn btn-secondary mr-2" id="clear-btn">Clear</button>
-
-                    </form>
+                   
                 </div>
             </div>
           
                     <div class="card-body transfers-table">
-                        <div class="form-group">
-                            <div class="dropdown">
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                    Export
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="{{ route('transfers.export.excel') }}" class="dropdown-item">
-                                        <i class="la la-file-excel-o mr-2"></i>Excel
-                                    </a>
-                                </div>
+                        <form class="form-inline mb-3" id="filter-form">
+                            <div class="form-group mr-2">
+                                <label for="from_date" class="mr-2">From Date</label>
+                                <input type="date" class="form-control" id="from_date" name="from_date">
                             </div>
-                        </div>
+                            <div class="form-group mr-2">
+                                <label for="to_date" class="mr-2">To Date</label>
+                                <input type="date" class="form-control" id="to_date" name="to_date">
+                            </div>
+                            <div class="form-group mr-2">
+                                <label for="amount" class="mr-2">Transfer Amount</label>
+                                <select class="form-control mr-2" id="amount_operator" name="amount_operator">
+                                    <option value="=">Equal to</option>
+                                    <option value=">">Greater than</option>
+                                    <option value="<">Less than</option>
+                                </select>
+                                <input type="number" class="form-control" id="amount" name="amount">
+                            </div>
+                            <button type="submit" class="btn btn-primary mr-2">Filter</button>
+                            <button type="button" class="btn btn-secondary" id="clear-btn">Clear</button>
+                        </form>
                         @include('admin.transfers.all-transfers-tbl')
                     </div>
            
@@ -74,6 +62,7 @@
 <script>
     var tranfersRoutes = {
         'datatable': "{{ route('transfers.datatable') }}",
+        'exportExcel': "{{ route('transfers.export.excel') }}",
     }
 </script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>

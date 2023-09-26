@@ -40,10 +40,15 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-            'merchant' => [
-                'driver' => 'session',
-                'provider' => 'merchants',
-            ],
+        'merchant' => [
+            'driver' => 'session',
+            'provider' => 'merchants',
+        ],
+        'api' => [
+            'driver' => 'sanctum',
+            'provider' => 'users',
+            'hash' => false,
+        ],
     ],
 
     /*

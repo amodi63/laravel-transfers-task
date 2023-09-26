@@ -39,7 +39,7 @@
             <th class="sorting " tabindex="0" aria-controls="kt_datatable" rowspan="1"
                 colspan="1" style=""
                 aria-label="Company Name: activate to sort column ascending">Created</th>
-            
+
 
 
 
@@ -53,8 +53,13 @@
             <td>{{ $transfer->id }}</td>
             <td>{{ $transfer->merchant->full_name }}</td>
             <td>{{ $transfer->amount }}</td>
+            <td>{{ $transfer->merchant_balance_before }}</td>
+            <td>{{ $transfer->merchant_balance_after }}</td>
+            <td>{{ $transfer->deduction_entered }} % </td>
+            <td>{{ $transfer->deduction_fixed }} %</td>
             <td>{{ $transfer->wallet_balance_before }}</td>
             <td>{{ $transfer->wallet_balance_after }}</td>
+            <td>{{ $transfer->code }}</td>
             <td>
                     
                     <a href="javascript:;" data-id="{{ $transfer->id }}" data-url="{{ route('transfers.destroy', $transfer->id) }}" class="btn btn-sm btn-danger userDelBtn"><i class="fa fa-trash"></i></a>

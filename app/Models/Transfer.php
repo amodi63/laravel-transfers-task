@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -42,45 +43,31 @@ class Transfer extends Model
         return $this->belongsTo(Merchant::class);
     }
    
-    //make scope to make fillter on the transfer table
-    //make scope to make fillter on the transfer table
-
-
-    public function scopeFillter()
+    public function getDeductionEnteredAttribute($value)
     {
-        return $this->when(request()->filled('search'), function($query) {
-            $query->WhereHas('merchant', function($query) {
-            
-                $query->select('id', 'first_name', 'last_name')->where(function($query) {
-                    $query->where('first_name', 'like', '%'.request()->search.'%')
-                        ->orWhere('last_name', 'like', '%'.request()->search.'%');
-                });
-            });
-    
-            if (request()->filled('from_date')) {
-                $query->where('created_at', '>=', request()->from_date);
-            }
-    
-            if (request()->filled('to_date')) {
-                $query->where('created_at', '<=', request()->to_date);
-            }
-    
-            if (request()->filled('amount_operator') && request()->filled('amount')) {
-                $amountOperator = request()->amount_operator;
-                $amount = request()->amount;
-                switch ($amountOperator) {
-                    case 'greater':
-                        $query->where('amount', '>', $amount);
-                        break;
-                    case 'smaller':
-                        $query->where('amount', '<', $amount);
-                        break;
-                    case 'equal':
-                        $query->where('amount', '=', $amount);
-                        break;
-                }
-            }
-        });
+        return ($value !== null) ? $value * 100 : self::FIXED_DEDUCTIONS;
+    }
+
+    public function getDeductionFixedAttribute($value)
+    {
+        return ($value !== null) ? $value * 100 : self::FIXED_DEDUCTIONS;
+    }
+
+    public function scopeFilter($query, $fromDate, $toDate, $amountOperator, $amount)
+    {
+        
+       
+        if ($fromDate) {
+            $query->whereDate('created_at', '>=', $fromDate);
+        }
+        if ($toDate) {
+            $query->whereDate('created_at', '<=', $toDate);
+        }
+        if ($amount) {
+            $query->where('amount', $amountOperator, $amount);
+
+        }
+        return $query;
     }
     
 

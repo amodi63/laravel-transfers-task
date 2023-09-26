@@ -1,7 +1,8 @@
-<div class="dataTables_wrapper dt-bootstrap4 no-footer">
+
+<div class=" dataTables_wrapper dt-bootstrap4 no-footer border p-3 shadow-xs rounded">
     <div class="row">
     </div>
-    <div class="row">
+    <div class="row mx-2 mt-2">
         <div class="col-sm-12">
             <table class="table table-bordered table-hover table-checkable dataTable no-footer dtr-inline"
                 id="kt_transfers-datatable" style="margin-top: 13px !important; width: 979px;" role="grid"

@@ -7,8 +7,7 @@ use App\Models\Transfer;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\TransfersExport;
-
-
+use Illuminate\Http\Request;
 
 class TransferRepository implements TransferRepositoryInterface
 {
@@ -40,12 +39,39 @@ class TransferRepository implements TransferRepositoryInterface
         return Transfer::destroy($transfer_id);
     }
 
-    public function exportTransfers()
-    {
-        $query = Transfer::with(['user', 'merchant'])
+    public function exportTransfers(array $data)
+{
+    $query = Transfer::with(['user', 'merchant'])
         ->select('id', 'amount', 'deduction_entered', 'wallet_balance_before', 'wallet_balance_after', 'code', 'user_id', 'merchant_id');
-
-        return Excel::download(new TransfersExport($query), 'transfers.xlsx');
+    
+    if (isset($data['from_date'])) {
+        $query->whereDate('created_at', '>=', $data['from_date']);
     }
+    if (isset($data['to_date'])) {
+        $query->whereDate('created_at', '<=', $data['to_date']);
+    }
+    if (isset($data['amount'])) {
+        $operator = $data['amount_operator'];
+        $amount = $data['amount'];
+        $query->where('amount', $operator, $amount);
+    }
+   
+    $query = $query->get();
+    $new_query = $query->map(function ($item) {
+            $item['id'] = $item->id;
+            $item['amount'] = $item->amount;
+            $item['deduction_entered'] = $item->deduction_entered;
+            $item['wallet_balance_before'] = $item->wallet_balance_before;
+            $item['wallet_balance_after'] = $item->wallet_balance_after;
+            $item['code'] = $item->code;
+            $item['user_id'] = $item->user->first_name . ' ' . $item->user->last_name;
+            $item['merchant_id'] = $item->merchant->first_name . ' ' . $item->merchant->last_name;
+            $item['created_at'] = $item->created_at;
+            return $item;
+        
+    });
+
+    return Excel::download(new TransfersExport($new_query), 'transfers.xlsx');
+}
     
 }
